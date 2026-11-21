@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="在本机核对 SRT 和 WebVTT 字幕的时间覆盖。">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; base-uri 'none'; form-action 'none'">
+  <title>CueProof · 字幕交付检查</title>
+  <style>/* CSS */</style>
+</head>
+<body>
+  <main class="workspace">
+    <header class="masthead">
+      <strong>CueProof</strong>
+      <span>在本机处理字幕 <i aria-hidden="true"></i></span>
+    </header>
+    <section class="hero" aria-labelledby="title">
+      <div>
+        <h1 id="title">字幕交付检查</h1>
+        <p>对比原稿和待交付字幕，找出哪些播放时段缺少字幕、哪些时段多出字幕。</p>
+      </div>
+      <button id="sample" class="secondary" type="button">试用样例 <span aria-hidden="true">↗</span></button>
+    </section>
+    <section class="panel" aria-labelledby="input-title">
+      <h2 id="input-title">选择字幕</h2>
+      <div class="files">
+        <label class="file"><span>原稿</span><input id="source" type="file" accept=".srt,.vtt,text/vtt"></label>
+        <label class="file"><span>待交付字幕</span><input id="delivery" type="file" accept=".srt,.vtt,text/vtt"></label>
+      </div>
+      <div class="actions">
+        <label>最短提示（毫秒） <input id="minimum" type="number" min="0" max="10000" step="1" value="250"></label>
+        <label>交付稿偏移（毫秒） <input id="offset" type="number" min="-600000" max="600000" step="1" value="0" aria-describedby="offset-help"></label>
+        <button id="compare" class="primary" type="button">开始核对</button>
+      </div>
+      <p class="hint" id="offset-help">支持 SRT 和 WebVTT。偏移为正时，交付稿在预览中向后移。</p>
+      <p id="status" class="status" role="status" aria-live="polite"></p>
+      <ul id="errors" class="errors" hidden></ul>
+    </section>
+    <section id="report" class="panel report" aria-labelledby="result-title" tabindex="-1" hidden>
+      <div class="report-head">
+        <h2 id="result-title">核对结果</h2>
+        <button id="download" type="button" class="secondary">下载 CSV</button>
+      </div>
+      <dl class="metrics">
+        <div><dt>原稿覆盖率</dt><dd id="covered"></dd></div>
+        <div><dt>缺少覆盖</dt><dd id="missing"></dd></div>
+        <div><dt>多出覆盖</dt><dd id="extra"></dd></div>
+      </dl>
+      <div class="timeline" aria-label="字幕时间覆盖条">
+        <div class="track-row"><span>原稿</span><canvas id="source-track" class="track" width="1200" height="20"></canvas></div>
+        <div class="track-row"><span>交付稿</span><canvas id="delivery-track" class="track" width="1200" height="20"></canvas></div>
+        <div class="scale"><span>00:00</span><span id="track-end"></span></div>
+      </div>
+      <p id="threshold" class="hint"></p>
+      <div class="table-wrap">
+        <table aria-label="覆盖差异时间段">
+          <thead><tr><th>类别</th><th>开始</th><th>结束</th><th>时长</th></tr></thead>
+          <tbody id="findings"></tbody>
+        </table>
+      </div>
+      <button id="more" class="secondary" type="button" hidden>显示更多</button>
+    </section>
+    <footer>仅检查时间覆盖。字幕译文、音画同步和原文件内容仍需人工核对。</footer>
+  </main>
+  <script>/* CORE */</script>
+  <script>/* APP */</script>
+</body>
+</html>
