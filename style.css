@@ -60,6 +60,8 @@ td { font-variant-numeric: tabular-nums; }
 .extra td:first-child { color: #a9bafe; }
 #more:not([hidden]) { margin-top: 12px; }
 footer { margin-top: 20px; color: var(--muted); font-size: .82rem; line-height: 1.6; }
+footer nav { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 7px; }
+footer a { color: var(--accent); text-underline-offset: 3px; }
 
 @media (max-width: 610px) {
   .workspace { padding-inline: 15px; }
